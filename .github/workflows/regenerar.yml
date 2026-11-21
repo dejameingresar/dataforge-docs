@@ -1,0 +1,35 @@
+name: Regenerar documentación técnica
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  regenerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerar sitio desde el código fuente versionado
+        run: |
+          python doc/publicar_docs.py
+          cp doc/_site/* .
+      - name: Publicar cambios
+        run: |
+          git config user.name "DataForge Docs"
+          git config user.email "docs@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Sin cambios en la documentación."
+          else
+            git commit -m "Regenerar documentación técnica desde el código"
+            git push
+          fi

@@ -1,0 +1,81 @@
+{
+  "fecha_utc": "2026-11-20T01:35:50+00:00",
+  "python": "3.12.14",
+  "comprobaciones": 12,
+  "exitosas": 12,
+  "omitidas": 0,
+  "resultados": [
+    {
+      "comando": "app/tests/casos.py",
+      "exit_code": 0,
+      "segundos": 0.148,
+      "log": "01-casos.log"
+    },
+    {
+      "comando": "app/tests/fuzzing.py",
+      "exit_code": 0,
+      "segundos": 0.144,
+      "log": "02-fuzzing.log"
+    },
+    {
+      "comando": "app/tests/servidor_http.py",
+      "exit_code": 0,
+      "segundos": 2.408,
+      "log": "03-servidor_http.log"
+    },
+    {
+      "comando": "app/tests/no_funcionales.py",
+      "exit_code": 0,
+      "segundos": 0.326,
+      "log": "04-no_funcionales.log"
+    },
+    {
+      "comando": "app/tests/servidor_no_funcional.py",
+      "exit_code": 0,
+      "segundos": 2.381,
+      "log": "05-servidor_no_funcional.log"
+    },
+    {
+      "comando": "app/tests/dashboard_estado.py",
+      "exit_code": 0,
+      "segundos": 0.165,
+      "log": "06-dashboard_estado.log"
+    },
+    {
+      "comando": "app/tests/backup_estado.py",
+      "exit_code": 0,
+      "segundos": 0.187,
+      "log": "07-backup_estado.log"
+    },
+    {
+      "comando": "app/tests/regresiones_avance2.py",
+      "exit_code": 0,
+      "segundos": 0.158,
+      "log": "08-regresiones_avance2.log"
+    },
+    {
+      "comando": "app/tests/validar_salidas.py",
+      "exit_code": 0,
+      "segundos": 0.149,
+      "log": "09-validar_salidas.log"
+    },
+    {
+      "comando": "app/tests/conexion_viva.py",
+      "exit_code": 0,
+      "segundos": 1.797,
+      "log": "10-conexion_viva.log"
+    },
+    {
+      "comando": "db/verificar_esquema.py",
+      "exit_code": 0,
+      "segundos": 0.069,
+      "log": "11-verificar_esquema.log"
+    },
+    {
+      "comando": "doc/generar_documentos.py --verificar",
+      "exit_code": 0,
+      "segundos": 0.174,
+      "log": "12-generar_documentos.log"
+    }
+  ]
+}
