@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>README — DataForge NoSQL</title>
+<style>
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:#0f172a;
+     margin:0;padding:0;line-height:1.65;background:#f8fafc}
+header{background:#0f766e;color:#fff;padding:28px 32px}
+header h1{margin:0;font-size:22px}
+header p{margin:6px 0 0;opacity:.9;font-size:14px}
+main{max-width:1000px;margin:0 auto;padding:28px 24px 60px}
+nav{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 18px;
+    margin-bottom:26px}
+nav a{color:#0f766e;text-decoration:none;font-weight:600;margin-right:16px;
+      font-size:14px}
+nav a:hover{text-decoration:underline}
+h2{color:#0f766e;font-size:18px;margin:34px 0 12px;
+   border-bottom:2px solid #e2e8f0;padding-bottom:6px}
+h3{color:#134e4a;font-size:15px;margin:22px 0 8px}
+img{max-width:100%;border:1px solid #e2e8f0;border-radius:10px;margin:12px 0;
+    background:#fff}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+th,td{border:1px solid #e2e8f0;padding:8px 12px;text-align:left}
+th{background:#f1f5f9;font-weight:600}
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;
+    overflow-x:auto;font-size:13px}
+pre code{background:none;color:inherit}
+.clase{border:1px solid #e2e8f0;border-radius:10px;background:#fff;
+       padding:16px 20px;margin:14px 0}
+.clase h3{margin:0 0 10px;color:#0f766e}
+.attrs,.metodos{margin:6px 0}
+.attrs li,.metodos li{font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.etiqueta{display:inline-block;background:#ccfbf1;color:#0f766e;border-radius:4px;
+          padding:1px 8px;font-size:12px;font-weight:600;margin-left:8px}
+footer{border-top:1px solid #e2e8f0;margin-top:40px;padding-top:16px;
+       color:#64748b;font-size:13px}
+</style></head><body>
+<header><h1>README</h1><p>DataForge NoSQL &middot; documentacion tecnica</p>
+</header><main>
+<nav><a href="index.html">Portada</a><a href="readme.html" style="color:#0f172a;text-decoration:underline">README</a><a href="diagramas.html">Diagramas</a><a href="clases.html">Clases</a><a href="diccionario-datos.html">Diccionario</a><a href="matriz-tipos.html">Tipos</a><a href="catalogo-formatos.html">Formatos</a><a href="manual-tecnico.html">Manual</a></nav>
+<h2>DataForge NoSQL</h2>
+<p>SI 783 Base de Datos II · Grupo 14 · Segundo avance de Unidad II</p>
+<p>Rodriguez Cardenas, Patrick Elvis · Rios Cohaila, Nicole Luciana.</p>
+<p>Completa datos de prueba desde una muestra y exporta a MongoDB, Redis,</p>
+<p>Cassandra o Neo4j. El vocabulario neutral contiene 23 tipos; algunas</p>
+<p>traducciones son aproximaciones, detalladas en doc/matriz-tipos.md.</p>
+<h3>Ejecutar</h3>
+<p><b>En la nube:</b> https://dataforge-nosql.vercel.app</p>
+<p>Requiere Python 3.12 o superior. En Windows abrir Abrir-DataForge.cmd.</p>
+<p>    python app.py</p>
+<p>Abrir http://127.0.0.1:8000. Cargar ejemplo o archivo, revisar la estructura,</p>
+<p>ajustar el total por coleccion, generar y exportar.</p>
+<p>Los archivos exportados contienen los registros nuevos.</p>
+<p>MongoDB acepta el arreglo con:</p>
+<p>    mongoimport --db prueba --collection clientes --file clientes.json --jsonArray</p>
+<h3>Segundo avance</h3>
+<li>Sesion anonima por cookie HttpOnly y SameSite Lax, con vencimiento.</li>
+<li>Historial SQLite aislado por sesion y disponible en la pestaña Actividad.</li>
+<li>Cache LRU con TTL para catalogo y esquema de ejemplo.</li>
+<li>Log JSONL de metadatos y dashboard de llamadas, errores y tiempos.</li>
+<li>Respaldo consistente de la actividad, SHA256 y restauracion comprobada.</li>
+<li>Extension VS Code y habilidad local para el reto de integracion.</li>
+<p>El servidor usa data/dataforge.sqlite3 y data/dataforge.jsonl.</p>
+<p>DATAFORGE_DATOS permite elegir el directorio. No se persisten los cuerpos,</p>
+<p>credenciales ni lotes del usuario. El modo web local no requiere drivers.</p>
+<p>La escritura en motores vivos requiere el driver opcional y un destino elegido.</p>
+<h3>Verificacion reproducible</h3>
+<p>    python -m pip install pymongo redis</p>
+<p>    python tools/verificar_avance.py</p>
+<p>    node --test integraciones/vscode/test/extension.test.js</p>
+<p>    python doc/generar_documentos.py --verificar</p>
+<p>12 comprobaciones superadas, 0 omitida(s), 0 fallidas. Ejecucion UTC: 2026-11-20T01:35:50+00:00.</p>
+<p>Logs y JUnit: doc/reportes/avance2. Se distinguen suites, casos y pruebas con</p>
+<p>proveedor simulado; no se suman como una sola cifra de cobertura.</p>
+<p>La prueba Redis real requiere DATAFORGE_REDIS_TEST_PORT apuntando a una</p>
+<p>instancia dedicada. No limpia bases ajenas.</p>
+<h3>Base de datos y respaldos</h3>
+<p>    python db/aplicar_estado.py</p>
+<p>    python db/backup_estado.py</p>
+<p>    python dashboard/generar_dashboard.py</p>
+<p>La base operativa tiene sesion y operacion, FK e indices. Su diccionario y</p>
+<p>diagrama se generan desde el esquema SQLite real. El ejemplo de Liquibase</p>
+<p>crea una proyeccion relacional de la tienda en PostgreSQL; es una demostracion</p>
+<p>independiente y no se presenta como la base operativa del producto.</p>
+<p>El ejercicio diario de CI se ejecuta sobre bases de prueba. El respaldo de</p>
+<p>una instalacion real debe programarse sobre su directorio DATAFORGE_DATOS.</p>
+<h3>Documentacion</h3>
+<li>[FD05 del segundo avance](Documentos/FD05-Segundo-Avance-Unidad-II.md)</li>
+<li>[Adenda FD01 a FD04](Documentos/ADENDA-Unidad-II.md)</li>
+<li>[Estandar de programacion](doc/estandar-programacion.md)</li>
+<li>[Diccionario del ejemplo](doc/diccionario-datos.md)</li>
+<li>[Diccionario de actividad](doc/diccionario-estado.md)</li>
+<li>[Componentes](doc/arquitectura.svg)</li>
+<li>[Clases](doc/clases.svg)</li>
+<li>[Despliegue](doc/despliegue.svg)</li>
+<li>[Modelo del ejemplo](doc/modelo-er.svg)</li>
+<li>[Modelo de actividad](doc/estado-er.svg)</li>
+<li>[Matriz de rubrica](RUBRICA_BD2.md)</li>
+<li>[Guion de demostracion](expo/Segundo-avance.md)</li>
+<p>    python doc/generar_documentos.py</p>
+<p>    python doc/renderizar_diagramas.py --jar RUTA_A_PLANTUML.jar</p>
+<p>    python tools/generar_readme.py</p>
+<p>    python doc/publicar_docs.py</p>
+<p>doc/_site contiene la referencia de clases, metodos y propiedades para Pages.</p>
+<p>Los seis diagramas SVG se regeneran desde PlantUML. El README se genera con</p>
+<p>este script a partir de las capacidades y del reporte real de pruebas.</p>
+<h3>Automatizaciones</h3>
+<table>
+<tr><th>Workflow</th><th>Resultado previsto</th></tr>
+<tr><td>documentacion.yml</td><td>Suites, drivers, exportaciones y artefactos de evidencia</td></tr>
+<tr><td>estado.yml</td><td>Objetos SQLite y ensayo de restauracion con reporte</td></tr>
+<tr><td>liquibase.yml</td><td>Esquema de ejemplo sobre PostgreSQL real en CI</td></tr>
+<tr><td>backups.yml</td><td>Restauracion y conteos de MongoDB y Redis de prueba</td></tr>
+<tr><td>terraform.yml</td><td>Formato, validacion, plan simulado y costo estimado</td></tr>
+<tr><td>release.yml</td><td>Pruebas, ZIP, SHA256, release y despliegue manual por hook</td></tr>
+<tr><td>pages.yml</td><td>Publicacion de la referencia tecnica en GitHub Pages</td></tr>
+</table>
+<p>La validacion local de YAML no equivale a una ejecucion de GitHub.</p>
+<p>El despliegue por hook requiere DEPLOY_HOOK y APP_URL en el entorno produccion.</p>
+<p>Confirmar la revision que despliega el proveedor. El servicio gratuito de</p>
+<p>Render usa almacenamiento efimero: para conservar historial se necesita un</p>
+<p>volumen persistente. Terraform conserva actividad en /var/lib/dataforge.</p>
+<h3>Infraestructura y costos</h3>
+<p>    terraform -chdir=terraform init -backend=false</p>
+<p>    terraform -chdir=terraform validate</p>
+<p>    terraform -chdir=terraform test</p>
+<p>Las pruebas usan proveedor AWS simulado y no crean recursos. El despliegue real</p>
+<p>requiere cuenta, estado persistente y autorizacion. Parametros: url_paquete</p>
+<p>versionada, sha256_paquete, nombre_clave_ssh y cidr_administracion.</p>
+<p>La descarga comprueba checksum; systemd inicia el proceso sin root.</p>
+<p>El volumen se cifra, IMDSv2 es obligatorio y no se publican Redis ni MongoDB.</p>
+<p>Costo base estimado: USD 11.88/mes para 730 horas de t3.micro, 8 GB gp3 y</p>
+<p>una IPv4 publica, antes de creditos e impuestos. Detalle y fuentes en</p>
+<p>doc/costos.md. No hay consumo AWS generado en este avance.</p>
+<h3>Integracion del reto</h3>
+<p>Paquete: integraciones/vscode/dataforge-nosql-1.0.0.vsix.</p>
+<p>En VS Code usar Extensions > Install from VSIX y abrir la raiz del proyecto.</p>
+<p>Comandos: DataForge Iniciar servidor, Abrir aplicacion, Ejecutar pruebas.</p>
+<p>La habilidad esta en integraciones/skill/dataforge/SKILL.md.</p>
+<p>Las pruebas locales cubren la construccion de comandos; la activacion dentro</p>
+<p>de VS Code y la instalacion en un agente deben demostrarse por separado.</p>
+<h3>Limites</h3>
+<p>El detector infiere hasta 2000 registros por coleccion; inferir no confirma</p>
+<p>restricciones que no aparecen en la muestra. Una semilla reproduce el lote con</p>
+<p>los mismos parametros y version. No se han vuelto a ejecutar aqui los datasets</p>
+<p>externos ni escrituras contra MongoDB, Cassandra o Neo4j vivos.</p>
+<p>El servidor local de demostracion no incluye autenticacion de usuarios ni TLS.</p>
+<p>Las sesiones anonimas no sustituyen un inicio de sesion. Antes de publicarlo</p>
+<p>para usuarios externos se necesita proteger el acceso y los destinos de red.</p>
+<p>La contribucion por integrante requiere el historial Git original. Esta copia</p>
+<p>proviene de un ZIP y no contiene atribucion verificable de commits.</p>
+<footer>Generado el 2026-11-20 desde el codigo.</footer>
+</main></body></html>
