@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Matriz de tipos — DataForge NoSQL</title>
+<style>
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:#0f172a;
+     margin:0;padding:0;line-height:1.65;background:#f8fafc}
+header{background:#0f766e;color:#fff;padding:28px 32px}
+header h1{margin:0;font-size:22px}
+header p{margin:6px 0 0;opacity:.9;font-size:14px}
+main{max-width:1000px;margin:0 auto;padding:28px 24px 60px}
+nav{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 18px;
+    margin-bottom:26px}
+nav a{color:#0f766e;text-decoration:none;font-weight:600;margin-right:16px;
+      font-size:14px}
+nav a:hover{text-decoration:underline}
+h2{color:#0f766e;font-size:18px;margin:34px 0 12px;
+   border-bottom:2px solid #e2e8f0;padding-bottom:6px}
+h3{color:#134e4a;font-size:15px;margin:22px 0 8px}
+img{max-width:100%;border:1px solid #e2e8f0;border-radius:10px;margin:12px 0;
+    background:#fff}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+th,td{border:1px solid #e2e8f0;padding:8px 12px;text-align:left}
+th{background:#f1f5f9;font-weight:600}
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;
+    overflow-x:auto;font-size:13px}
+pre code{background:none;color:inherit}
+.clase{border:1px solid #e2e8f0;border-radius:10px;background:#fff;
+       padding:16px 20px;margin:14px 0}
+.clase h3{margin:0 0 10px;color:#0f766e}
+.attrs,.metodos{margin:6px 0}
+.attrs li,.metodos li{font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.etiqueta{display:inline-block;background:#ccfbf1;color:#0f766e;border-radius:4px;
+          padding:1px 8px;font-size:12px;font-weight:600;margin-left:8px}
+footer{border-top:1px solid #e2e8f0;margin-top:40px;padding-top:16px;
+       color:#64748b;font-size:13px}
+</style></head><body>
+<header><h1>Matriz de tipos</h1><p>DataForge NoSQL &middot; documentacion tecnica</p>
+</header><main>
+<nav><a href="index.html">Portada</a><a href="readme.html">README</a><a href="diagramas.html">Diagramas</a><a href="clases.html">Clases</a><a href="diccionario-datos.html">Diccionario</a><a href="matriz-tipos.html" style="color:#0f172a;text-decoration:underline">Tipos</a><a href="catalogo-formatos.html">Formatos</a><a href="manual-tecnico.html">Manual</a></nav>
+<h2>Matriz de compatibilidad de tipos</h2>
+<p>El proyecto declara su esquema en un <b>vocabulario neutral</b> de 23 tipos. Cada adaptador lo traduce al tipo nativo de su motor, y esta tabla se genera leyendo esa traduccion: no se escribe a mano, de modo que no puede quedar desactualizada.</p>
+<p><b>nativo</b> = el motor tiene un tipo propio para ese valor.  </p>
+<p><b>aprox.</b> = el motor no lo tiene y lo guarda como texto (el caso de Redis, que solo almacena cadenas).</p>
+<h3>Cobertura por motor</h3>
+<table>
+<tr><th>Motor</th><th>Familia</th><th>Tipos nativos</th><th>Aproximados</th><th>Cobertura</th></tr>
+<tr><td>**MongoDB**</td><td>documental</td><td>21</td><td>2</td><td>91 %</td></tr>
+<tr><td>**Redis**</td><td>clave-valor</td><td>7</td><td>16</td><td>30 %</td></tr>
+<tr><td>**Cassandra**</td><td>columnar</td><td>22</td><td>1</td><td>96 %</td></tr>
+<tr><td>**Neo4j**</td><td>grafos</td><td>19</td><td>4</td><td>83 %</td></tr>
+</table>
+<h3>Traduccion tipo por tipo</h3>
+<table>
+<tr><th>Tipo neutral</th><th>MongoDB</th><th>Redis</th><th>Cassandra</th><th>Neo4j</th></tr>
+<tr><td>`objectid`</td><td>`ObjectId`</td><td>`string` *(aprox.)*</td><td>`uuid`</td><td>`String` *(aprox.)*</td></tr>
+<tr><td>`uuid`</td><td>`BinData (subtype 4)`</td><td>`string` *(aprox.)*</td><td>`uuid`</td><td>`String` *(aprox.)*</td></tr>
+<tr><td>`texto`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`texto_largo`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`email`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`telefono`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`url`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`dni`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`entero`</td><td>`int`</td><td>`string` *(aprox.)*</td><td>`int`</td><td>`Integer`</td></tr>
+<tr><td>`largo`</td><td>`long`</td><td>`string` *(aprox.)*</td><td>`bigint`</td><td>`Integer`</td></tr>
+<tr><td>`decimal`</td><td>`Decimal128`</td><td>`string` *(aprox.)*</td><td>`decimal`</td><td>`Float`</td></tr>
+<tr><td>`flotante`</td><td>`double`</td><td>`string` *(aprox.)*</td><td>`double`</td><td>`Float`</td></tr>
+<tr><td>`booleano`</td><td>`bool`</td><td>`string` *(aprox.)*</td><td>`boolean`</td><td>`Boolean`</td></tr>
+<tr><td>`fecha`</td><td>`date`</td><td>`string` *(aprox.)*</td><td>`date`</td><td>`Date`</td></tr>
+<tr><td>`fecha_hora`</td><td>`date`</td><td>`string` *(aprox.)*</td><td>`timestamp`</td><td>`DateTime`</td></tr>
+<tr><td>`hora`</td><td>`string` *(aprox.)*</td><td>`string` *(aprox.)*</td><td>`time`</td><td>`Time`</td></tr>
+<tr><td>`timestamp`</td><td>`timestamp`</td><td>`string` *(aprox.)*</td><td>`timestamp`</td><td>`Integer`</td></tr>
+<tr><td>`enum`</td><td>`string`</td><td>`string`</td><td>`text`</td><td>`String`</td></tr>
+<tr><td>`lista`</td><td>`array`</td><td>`string (JSON)` *(aprox.)*</td><td>`list<text>`</td><td>`List`</td></tr>
+<tr><td>`mapa`</td><td>`object`</td><td>`string (JSON)` *(aprox.)*</td><td>`map<text, text>`</td><td>`Map`</td></tr>
+<tr><td>`binario`</td><td>`binData`</td><td>`string (base64)` *(aprox.)*</td><td>`blob`</td><td>`String (base64)` *(aprox.)*</td></tr>
+<tr><td>`geo`</td><td>`GeoJSON point`</td><td>`string (JSON)` *(aprox.)*</td><td>`text` *(aprox.)*</td><td>`Point`</td></tr>
+<tr><td>`inet`</td><td>`string` *(aprox.)*</td><td>`string` *(aprox.)*</td><td>`inet`</td><td>`String` *(aprox.)*</td></tr>
+</table>
+<h3>Tipos que cada motor tiene que aproximar</h3>
+<h4>MongoDB</h4>
+<table>
+<tr><th>Tipo neutral</th><th>Se guarda como</th></tr>
+<tr><td>`hora`</td><td>`string`</td></tr>
+<tr><td>`inet`</td><td>`string`</td></tr>
+</table>
+<h4>Redis</h4>
+<table>
+<tr><th>Tipo neutral</th><th>Se guarda como</th></tr>
+<tr><td>`objectid`</td><td>`string`</td></tr>
+<tr><td>`uuid`</td><td>`string`</td></tr>
+<tr><td>`entero`</td><td>`string`</td></tr>
+<tr><td>`largo`</td><td>`string`</td></tr>
+<tr><td>`decimal`</td><td>`string`</td></tr>
+<tr><td>`flotante`</td><td>`string`</td></tr>
+<tr><td>`booleano`</td><td>`string`</td></tr>
+<tr><td>`fecha`</td><td>`string`</td></tr>
+<tr><td>`fecha_hora`</td><td>`string`</td></tr>
+<tr><td>`hora`</td><td>`string`</td></tr>
+<tr><td>`timestamp`</td><td>`string`</td></tr>
+<tr><td>`lista`</td><td>`string (JSON)`</td></tr>
+<tr><td>`mapa`</td><td>`string (JSON)`</td></tr>
+<tr><td>`binario`</td><td>`string (base64)`</td></tr>
+<tr><td>`geo`</td><td>`string (JSON)`</td></tr>
+<tr><td>`inet`</td><td>`string`</td></tr>
+</table>
+<h4>Cassandra</h4>
+<table>
+<tr><th>Tipo neutral</th><th>Se guarda como</th></tr>
+<tr><td>`geo`</td><td>`text`</td></tr>
+</table>
+<h4>Neo4j</h4>
+<table>
+<tr><th>Tipo neutral</th><th>Se guarda como</th></tr>
+<tr><td>`objectid`</td><td>`String`</td></tr>
+<tr><td>`uuid`</td><td>`String`</td></tr>
+<tr><td>`binario`</td><td>`String (base64)`</td></tr>
+<tr><td>`inet`</td><td>`String`</td></tr>
+</table>
+<footer>Generado el 2026-11-21 desde el codigo.</footer>
+</main></body></html>

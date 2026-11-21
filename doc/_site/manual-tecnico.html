@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manual tecnico — DataForge NoSQL</title>
+<style>
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:#0f172a;
+     margin:0;padding:0;line-height:1.65;background:#f8fafc}
+header{background:#0f766e;color:#fff;padding:28px 32px}
+header h1{margin:0;font-size:22px}
+header p{margin:6px 0 0;opacity:.9;font-size:14px}
+main{max-width:1000px;margin:0 auto;padding:28px 24px 60px}
+nav{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 18px;
+    margin-bottom:26px}
+nav a{color:#0f766e;text-decoration:none;font-weight:600;margin-right:16px;
+      font-size:14px}
+nav a:hover{text-decoration:underline}
+h2{color:#0f766e;font-size:18px;margin:34px 0 12px;
+   border-bottom:2px solid #e2e8f0;padding-bottom:6px}
+h3{color:#134e4a;font-size:15px;margin:22px 0 8px}
+img{max-width:100%;border:1px solid #e2e8f0;border-radius:10px;margin:12px 0;
+    background:#fff}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+th,td{border:1px solid #e2e8f0;padding:8px 12px;text-align:left}
+th{background:#f1f5f9;font-weight:600}
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;
+    overflow-x:auto;font-size:13px}
+pre code{background:none;color:inherit}
+.clase{border:1px solid #e2e8f0;border-radius:10px;background:#fff;
+       padding:16px 20px;margin:14px 0}
+.clase h3{margin:0 0 10px;color:#0f766e}
+.attrs,.metodos{margin:6px 0}
+.attrs li,.metodos li{font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.etiqueta{display:inline-block;background:#ccfbf1;color:#0f766e;border-radius:4px;
+          padding:1px 8px;font-size:12px;font-weight:600;margin-left:8px}
+footer{border-top:1px solid #e2e8f0;margin-top:40px;padding-top:16px;
+       color:#64748b;font-size:13px}
+</style></head><body>
+<header><h1>Manual tecnico</h1><p>DataForge NoSQL &middot; documentacion tecnica</p>
+</header><main>
+<nav><a href="index.html">Portada</a><a href="readme.html">README</a><a href="diagramas.html">Diagramas</a><a href="clases.html">Clases</a><a href="diccionario-datos.html">Diccionario</a><a href="matriz-tipos.html">Tipos</a><a href="catalogo-formatos.html">Formatos</a><a href="manual-tecnico.html" style="color:#0f172a;text-decoration:underline">Manual</a></nav>
+<h2>Manual tecnico — DataForge NoSQL</h2>
+<p><b>Grupo 14</b> · SI-783 Base de Datos II · 2026-II</p>
+<p>Rodriguez Cardenas, Patrick (2022075751) · Rios Cohaila, Nicole Luciana (2022075745)</p>
+<p>---</p>
+<h3>1. Que hace</h3>
+<p>DataForge NoSQL lee una base de datos NoSQL <b>incompleta</b> y genera los</p>
+<p>registros que le faltan para completarla, respetando su estructura.</p>
+<p>El usuario no declara un esquema: sube lo que ya tiene y la aplicacion</p>
+<p>deduce colecciones, campos, tipos, dominios y relaciones de la propia</p>
+<p>muestra. Con esa estructura genera los datos que faltan y los exporta en</p>
+<p>el formato nativo de cuatro motores.</p>
+<h3>2. Arquitectura</h3>
+<p>El nucleo es Python de biblioteca estandar: no hay dependencias que</p>
+<p>instalar, y por eso el mismo codigo corre en local y en el servicio</p>
+<p>publico. La interfaz es una pagina estatica que consume la API.</p>
+<pre><code>
+app.py                     servidor HTTP (solo biblioteca estandar)
+app/nucleo/
+  tipos.py                 los 23 tipos neutrales y su mapeo a cada motor
+  generadores.py           catalogo de valores sinteticos
+  detector.py              lee la base del usuario y deduce su estructura
+  motor.py                 completa lo que falta y mide la calidad
+  adaptadores/             un modulo por motor (mongodb, redis, cassandra, neo4j)
+  api.py                   las rutas que consume el navegador
+app/web/                   interfaz (HTML + CSS + JS, sin framework)
+</pre>
+<img src="arquitectura.svg" alt="">
+<h3>3. Por que un vocabulario neutral</h3>
+<p>Los cuatro motores no comparten ni el modelo de datos ni los tipos.</p>
+<p>MongoDB habla de ObjectId y Decimal128; Redis no tiene tipos (todo es una</p>
+<p>cadena); Cassandra tiene <code>uuid y bigint; Neo4j tiene Point</code> y guarda</p>
+<p>los decimales como coma flotante.</p>
+<p>Si el esquema se declarara en el vocabulario de un motor, los otros tres</p>
+<p>serian traducciones de una traduccion. Por eso el proyecto define un</p>
+<p><b>vocabulario neutral</b> y cada adaptador traduce desde ahi: es lo que</p>
+<p>permite que un mismo esquema produzca los cuatro formatos sin tocarlo.</p>
+<p>La traduccion completa, con los tipos que cada motor tiene que aproximar,</p>
+<p>esta en [<code>matriz-tipos.md</code>](matriz-tipos.md).</p>
+<h3>4. El recorrido de una carga</h3>
+<img src="flujo.svg" alt="">
+<p>1. <b>Detectar.</b> El detector perfila cada campo de la muestra: tipo</p>
+<p>   observado, valores distintos, nulos, rango numerico y ejemplos. De ese</p>
+<p>   perfil deduce el tipo neutral, si el campo es un dominio cerrado, si es</p>
+<p>   clave y si apunta a otra coleccion.</p>
+<p>2. <b>Generar.</b> El motor completa cada coleccion hasta el volumen pedido,</p>
+<p>   conservando los registros que ya existian. Respeta claves, unicidad,</p>
+<p>   dominios y relaciones.</p>
+<p>3. <b>Exportar.</b> El adaptador del motor elegido traduce el lote a su</p>
+<p>   formato nativo.</p>
+<h3>5. Decisiones de diseno</h3>
+<p><b>El texto generado no se recorta al largo observado.</b> El largo de la</p>
+<p>muestra no es un limite del campo: un <code>numero observado como P-1</code> mide</p>
+<p>tres caracteres, pero eso no autoriza a truncar <code>COD-45283 a COD</code>.</p>
+<p><b>El correo se deriva del nombre de la misma fila.</b> Sin esto el</p>
+<p>generador produce datos que existen pero se contradicen: un nombre de una</p>
+<p>persona con el correo de otra.</p>
+<p><b>Un dominio cerrado se reconoce por repeticion o por el nombre.</b> Un</p>
+<p><code>estado con dos valores repetidos es un dominio; un sku</code> con ocho</p>
+<p>valores todos distintos es un identificador, aunque la muestra sea</p>
+<p>pequena. El nombre del campo desempata cuando la muestra no basta.</p>
+<p><b>La misma semilla produce el mismo lote.</b> Un error reportado se puede</p>
+<p>reproducir, que es lo que hace util el determinismo en una herramienta de</p>
+<p>pruebas.</p>
+<p><b>Los ejemplos pasan por el mismo detector que un archivo del usuario.</b></p>
+<p>No hay un camino especial para ellos: si el detector se rompe, los</p>
+<p>ejemplos tambien fallan y la prueba lo detecta.</p>
+<h3>6. Uso</h3>
+<pre><code>
+python3 app.py                      # http://127.0.0.1:8000
+python3 app/tests/casos.py          # la suite del nucleo
+python3 doc/generar_documentos.py   # regenera esta documentacion
+</pre>
+<h3>7. Estado verificado</h3>
+<p>Con la semilla 2026 y 40 registros por coleccion, el ejemplo</p>
+<p><code>tienda_mongodb</code> produce <b>120 registros</b> en</p>
+<p>3 colecciones, con</p>
+<p><b>100.0 % de completitud</b> y</p>
+<p>3/3 columnas unicas respetadas, sin ninguna relacion huerfana.</p>
+<h3>8. Limitaciones declaradas</h3>
+<li>El detector trabaja sobre una **muestra** (hasta 2000 registros por</li>
+<p>  coleccion). Una estructura que solo aparezca mas alla de esa muestra no</p>
+<p>  se detecta.</p>
+<li>El lote es **sintetico**: los valores son plausibles, no reales. No</li>
+<p>  sustituyen a una copia de produccion anonimizada.</p>
+<li>La deteccion de relaciones por valores exige que la clave destino</li>
+<p>  aparezca entre los ejemplos observados; con muestras muy pequenas puede</p>
+<p>  no deducirse una relacion. El nombre del campo es el respaldo.</p>
+<p>---</p>
+<p>Documentacion generada desde el codigo con <code>doc/generar_documentos.py</code>.</p>
+<footer>Generado el 2026-11-21 desde el codigo.</footer>
+</main></body></html>

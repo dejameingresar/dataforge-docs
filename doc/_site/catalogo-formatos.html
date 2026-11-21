@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catalogo de formatos — DataForge NoSQL</title>
+<style>
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:#0f172a;
+     margin:0;padding:0;line-height:1.65;background:#f8fafc}
+header{background:#0f766e;color:#fff;padding:28px 32px}
+header h1{margin:0;font-size:22px}
+header p{margin:6px 0 0;opacity:.9;font-size:14px}
+main{max-width:1000px;margin:0 auto;padding:28px 24px 60px}
+nav{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 18px;
+    margin-bottom:26px}
+nav a{color:#0f766e;text-decoration:none;font-weight:600;margin-right:16px;
+      font-size:14px}
+nav a:hover{text-decoration:underline}
+h2{color:#0f766e;font-size:18px;margin:34px 0 12px;
+   border-bottom:2px solid #e2e8f0;padding-bottom:6px}
+h3{color:#134e4a;font-size:15px;margin:22px 0 8px}
+img{max-width:100%;border:1px solid #e2e8f0;border-radius:10px;margin:12px 0;
+    background:#fff}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+th,td{border:1px solid #e2e8f0;padding:8px 12px;text-align:left}
+th{background:#f1f5f9;font-weight:600}
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;
+    overflow-x:auto;font-size:13px}
+pre code{background:none;color:inherit}
+.clase{border:1px solid #e2e8f0;border-radius:10px;background:#fff;
+       padding:16px 20px;margin:14px 0}
+.clase h3{margin:0 0 10px;color:#0f766e}
+.attrs,.metodos{margin:6px 0}
+.attrs li,.metodos li{font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.etiqueta{display:inline-block;background:#ccfbf1;color:#0f766e;border-radius:4px;
+          padding:1px 8px;font-size:12px;font-weight:600;margin-left:8px}
+footer{border-top:1px solid #e2e8f0;margin-top:40px;padding-top:16px;
+       color:#64748b;font-size:13px}
+</style></head><body>
+<header><h1>Catalogo de formatos</h1><p>DataForge NoSQL &middot; documentacion tecnica</p>
+</header><main>
+<nav><a href="index.html">Portada</a><a href="readme.html">README</a><a href="diagramas.html">Diagramas</a><a href="clases.html">Clases</a><a href="diccionario-datos.html">Diccionario</a><a href="matriz-tipos.html">Tipos</a><a href="catalogo-formatos.html" style="color:#0f172a;text-decoration:underline">Formatos</a><a href="manual-tecnico.html">Manual</a></nav>
+<h2>Formatos de entrada y salida</h2>
+<h3>Lo que cada motor acepta como entrada</h3>
+<table>
+<tr><th>Motor</th><th>Formatos que el detector reconoce</th></tr>
+<tr><td>**MongoDB**</td><td>Arreglo JSON · JSONL de `mongoexport` · objeto con una clave por coleccion · cualquier JSON con la forma inferible</td></tr>
+<tr><td>**Redis**</td><td>Comandos `HSET` · volcado en protocolo RESP · JSON de clave → objeto</td></tr>
+<tr><td>**Cassandra**</td><td>DDL `CREATE TABLE ... (...)` · filas en CSV con cabecera</td></tr>
+<tr><td>**Neo4j**</td><td>Sentencias Cypher `CREATE (:Etiqueta {...})` · JSON de nodos</td></tr>
+</table>
+<h3>Lo que produce cada motor como salida</h3>
+<table>
+<tr><th>Motor</th><th>Formato</th><th>Archivo</th><th>Como se carga</th></tr>
+<tr><td>MongoDB</td><td>Documentos JSON (mongoimport)</td><td>`.json`</td><td>`mongoimport --db X --collection Y --file Y.json`</td></tr>
+<tr><td>MongoDB</td><td>Script de mongosh (insertMany)</td><td>`.json`</td><td>`mongoimport --db X --collection Y --file Y.json`</td></tr>
+<tr><td>Redis</td><td>Comandos RESP (redis-cli --pipe)</td><td>`.redis`</td><td>`redis-cli --pipe < archivo.resp`</td></tr>
+<tr><td>Redis</td><td>Comandos en texto (HSET)</td><td>`.redis`</td><td>`redis-cli --pipe < archivo.resp`</td></tr>
+<tr><td>Cassandra</td><td>DDL + INSERT para cqlsh</td><td>`.cql`</td><td>`cqlsh -f archivo.cql`  ·  `COPY tabla FROM 'x.csv'`</td></tr>
+<tr><td>Cassandra</td><td>CSV para COPY FROM</td><td>`.cql`</td><td>`cqlsh -f archivo.cql`  ·  `COPY tabla FROM 'x.csv'`</td></tr>
+<tr><td>Neo4j</td><td>Sentencias Cypher (CREATE)</td><td>`.cypher`</td><td>Pegar en Neo4j Browser  ·  `cypher-shell -f archivo.cypher`</td></tr>
+<tr><td>Neo4j</td><td>CSV para LOAD CSV</td><td>`.cypher`</td><td>Pegar en Neo4j Browser  ·  `cypher-shell -f archivo.cypher`</td></tr>
+</table>
+<h3>Diferencias de carga entre motores</h3>
+<table>
+<tr><th>Aspecto</th><th>MongoDB</th><th>Redis</th><th>Cassandra</th><th>Neo4j</th></tr>
+<tr><td>**Unidad de datos**</td><td>documento</td><td>clave (hash)</td><td>fila</td><td>nodo</td></tr>
+<tr><td>**Identificador**</td><td>`_id` (ObjectId)</td><td>nombre de la clave</td><td>clave de particion</td><td>propiedad `id`</td></tr>
+<tr><td>**Relacion entre datos**</td><td>campo con la clave</td><td>clave con prefijo</td><td>clave de particion</td><td>arista</td></tr>
+<tr><td>**Carga masiva**</td><td>`mongoimport`</td><td>`--pipe`</td><td>`COPY`</td><td>`LOAD CSV`</td></tr>
+<tr><td>**Tipo de los valores**</td><td>BSON</td><td>cadena</td><td>CQL</td><td>propiedad tipada</td></tr>
+</table>
+<footer>Generado el 2026-11-21 desde el codigo.</footer>
+</main></body></html>
