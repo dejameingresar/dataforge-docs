@@ -29,17 +29,17 @@
 | 2 | `Documentos/FD01…FD04` (PDF + DOCX), `Base/FD05…docx`, adenda en el PDF entregado | Listo |
 | 3 | Repo classroom `UPT-FAING-EPIS/si783-2026-ii-proyecto-group-14`: `app.py`, `app/nucleo/`, `db/`, `terraform/`, `app/tests/` | Listo |
 | 4 | `git shortlog`: 38 commits de Patrick (dos nombres de autor) y 1 de Nicole | **Pendiente** |
-| 5 | `.github/workflows/terraform.yml` genera `reporte-pruebas.md` y `reporte-costes.md` como artefactos | Parcial: cifras contradictorias con `doc/costos.md` |
+| 5 | `.github/workflows/terraform.yml` genera `reporte-pruebas.md` y `reporte-costes.md` como artefactos | **Listo** (27/11): costos unificados en 0,64 / 8,23 USD en `doc/costos.md`, README y FD05 |
 | 6 | `.github/workflows/liquibase.yml`, `db/liquibase/`, reporte `reporte-liquibase.md` como artefacto | Parcial: falta adjuntar el reporte en la entrega |
-| 7 | `.github/workflows/backups.yml`, `db/copias/`, manifiesto y restauración probada | Parcial: hay un cambio sin commitear en `backups.yml` |
+| 7 | `.github/workflows/backups.yml`, `db/copias/`, manifiesto y restauración probada | **Listo** (27/11): corrección Redis commiteada y pusheada |
 | 8 | `.github/workflows/release.yml` con hook manual; app viva en `dataforge-nosql.vercel.app` | Parcial: el PDF dice "sin ejecución remota verificada" |
 | 9 | `doc/generar_documentos.py`, `doc/renderizar_diagramas.py`, 6 SVG y diccionarios | Listo |
-| 10 | Pages publicado en `dejameingresar.github.io/dataforge-docs/`; `clases.html` incompleto y enlace roto a `RUBRICA_BD2.md` | Parcial |
+| 10 | Pages publicado en `dejameingresar.github.io/dataforge-docs/` | **Listo** (27/11): 5 clases con propiedades y métodos; matriz publicada sin enlace roto |
 | 11 | `expo/DataForge-Exposicion.pdf`, `Documentos/Guion-de-exposicion_BD.pdf` | Parcial: falta video de sustentación |
 | 12 | Sin foros en BD2, sin comentarios en Moodle, sin discusiones en el repo | **Pendiente** |
 | 13 | `dashboard/` publicado en surge.sh; `metricas.jsonl` con 4 eventos del 14/10 | Parcial: datos muy escasos y antiguo |
 
-**Estimación actual: 13–15/20.** Entrega U2 enviada 6 días después del plazo y todavía *Sin calificar*.
+**Estimación tras las correcciones del 27/11: ~14,5/20.** Techo ~17/20 si no hay contribuciones ni discusiones reales. Entrega U2 enviada 6 días después del plazo y todavía *Sin calificar*.
 
 ## Plan U3 → 20/20
 
@@ -51,12 +51,12 @@ Vencimiento: 11–12 dic 2026. La rúbrica U3 es idéntica a la U2, así que **h
 | 2 | Revisar FD01–FD04 con la adenda y generar FD05 U3 con fecha nueva | Grupo |
 | 3 | Pegar en la entrega el enlace al repo classroom y el commit de cierre | Patrick |
 | 4 | **No delegable:** Nicole debe hacer commits reales de trabajo propio hasta superar el 40 % de contribución. No cambiar autores de commits existentes | **Nicole** |
-| 5 | Adjuntar `reporte-pruebas.md` y `reporte-costes.md`; unificar el costo en `doc/costos.md`, el README y el FD05 U3: **USD 0,64/mes con capa gratuita, USD 8,23/mes sin ella** (la IP elástica no se cobra si está asociada a instancia encendida) | Patrick |
+| 5 | **HECHO** Unificar costo en 0,64 / 8,23 USD; **pendiente** adjuntar `reporte-pruebas.md` y `reporte-costes.md` al FD05 U3 | Patrick |
 | 6 | Adjuntar `reporte-liquibase.md` y el log de ejecución al FD05 U3 | Patrick |
-| 7 | Commitear `backups.yml`, adjuntar `reporte-copias.md` y el manifiesto de restauración | Patrick |
+| 7 | **HECHO** Commitear `backups.yml`; **pendiente** adjuntar `reporte-copias.md` y el manifiesto al FD05 U3 | Patrick |
 | 8 | Demostrar despliegue real con URL, revision desplegada y salida del hook; quitar la frase "sin ejecución remota verificada" del FD05 U3 | Patrick |
 | 9 | Verificar en CI los 6 artefactos generados (README, diccionario, ER, clases, componentes, despliegue) | Patrick |
-| 10 | Regenerar Pages con el código fuente presente; publicar `clases.html` con las 4 clases del proyecto y `RUBRICA_BD2.md` | Patrick |
+| 10 | **HECHO** Regenerar Pages con el núcleo versionado: 5 clases con propiedades/métodos y matriz publicada | Patrick |
 | 11 | Grabar video de sustentación de hasta 10 min y subirlo con el guion | Grupo |
 | 12 | **No delegable:** participar de verdad en una pregunta/discusión del curso o del repo y guardar enlace o captura como evidencia | **Ambos** |
 | 13 | Generar el dashboard con eventos reales recientes de la app desplegada y publicar el enlace | Patrick |
@@ -70,4 +70,4 @@ Vencimiento: 11–12 dic 2026. La rúbrica U3 es idéntica a la U2, así que **h
 
 - Entrega U2 fuera de fecha: el criterio actitudinal se pierde aunque la rúbrica llegue a 20.
 - Sin retroalimentación escrita del docente en ninguna tarea: cualquier nota estimada es inferencia.
-- `backups.yml` está modificado en el working tree; si no se commitea, el evaluator remoto no lo ve.
+- El token guardado en el remote local está vencido: `git pull` local necesita credenciales nuevas. Ambos remotos ya están actualizados (commits `3b35bec` y `02c2bc8`).
