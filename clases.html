@@ -39,16 +39,33 @@ footer{border-top:1px solid #e2e8f0;margin-top:40px;padding-top:16px;
 <header><h1>Clases, metodos y propiedades</h1><p>DataForge NoSQL &middot; documentacion tecnica</p>
 </header><main>
 <nav><a href="index.html">Portada</a><a href="readme.html">README</a><a href="diagramas.html">Diagramas</a><a href="clases.html" style="color:#0f172a;text-decoration:underline">Clases</a><a href="diccionario-datos.html">Diccionario</a><a href="matriz-tipos.html">Tipos</a><a href="catalogo-formatos.html">Formatos</a><a href="manual-tecnico.html">Manual</a></nav>
-<p>Leido del codigo con <code>ast</code>: si una clase cambia, esta pagina cambia con ella.</p><div class="clase"><h3>Manejador<span class="etiqueta">app.py</span></h3>
-<div class="metodos"><b>Metodos</b><ul>
-<li>log_message(formato)</li>
-<li>do_PUT()</li>
-<li>do_DELETE()</li>
-<li>do_PATCH()</li>
-<li>do_HEAD()</li>
-<li>do_POST()</li>
-<li>do_GET()</li>
+<div class="clase"><h3>ErrorDeteccion<span class="etiqueta">detector.py</span></h3>
+</div>
+<div class="clase"><h3>_ExtendedJSON<span class="etiqueta">detector.py</span></h3>
+<p>Valor de Extended JSON ya desenvuelto: su tipo neutral y su valor crudo.</p>
+<div class="attrs"><b>Propiedades</b><ul>
+<li>tipo</li>
+<li>valor</li>
+<li>crudo</li>
 </ul></div>
 </div>
-<footer>Generado el 2026-11-23 desde el codigo.</footer>
+<div class="clase"><h3>ErrorGeneracion<span class="etiqueta">motor.py</span></h3>
+</div>
+<div class="clase"><h3>Generador<span class="etiqueta">motor.py</span></h3>
+<p>Completa una estructura detectada con los registros que le faltan.</p>
+<div class="attrs"><b>Propiedades</b><ul>
+<li>esquema</li>
+<li>rng</li>
+<li>semilla</li>
+<li>enums</li>
+<li>campos</li>
+<li>_usados</li>
+<li>_relaciones_omitidas</li>
+</ul></div>
+<div class="metodos"><b>Metodos</b><ul>
+<li>generar_coleccion(nombre, *, n_nuevos, disponibles, existentes)</li>
+<li>completar(volumenes)</li>
+</ul></div>
+</div>
+<footer>Generado el 2026-11-27 desde el codigo.</footer>
 </main></body></html>

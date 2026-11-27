@@ -127,9 +127,11 @@ versionada, sha256_paquete, nombre_clave_ssh y cidr_administracion.
 La descarga comprueba checksum; systemd inicia el proceso sin root.
 El volumen se cifra, IMDSv2 es obligatorio y no se publican Redis ni MongoDB.
 
-Costo base estimado: USD 11.88/mes para 730 horas de t3.micro, 8 GB gp3 y
-una IPv4 publica, antes de creditos e impuestos. Detalle y fuentes en
-doc/costos.md. No hay consumo AWS generado en este avance.
+Costo base estimado: USD 0.64/mes con capa gratuita (solo el disco gp3) u
+USD 8.23/mes sin ella (7.59 de EC2 mas 0.64 de gp3), antes de creditos e
+impuestos. La IPv4 publica no se cobra mientras este asociada a una instancia
+encendida. Detalle y fuentes en doc/costos.md. No hay consumo AWS generado en
+este avance.
 
 ## Integracion del reto
 
